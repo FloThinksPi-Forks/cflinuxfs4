@@ -12,6 +12,7 @@ compat:
 		--file compat.Dockerfile \
 		--build-arg "base=cloudfoundry/cflinuxfs4:$(version)" \
 		--build-arg packages="`cat "packages/cflinuxfs4-compat" 2>/dev/null`" \
+		--secret id=pro-attach-config,src=pro-attach-config.yaml \
   	--no-cache "--iidfile=$(COMPAT_BUILD).iid"
 
 	docker run "--cidfile=$(COMPAT_BUILD).cid" `cat "$(COMPAT_BUILD).iid"` dpkg -l
@@ -24,6 +25,8 @@ $(BUILD).iid:
 	--build-arg "base=$(BASE)" \
 	--build-arg packages="`cat "packages/$(NAME)" 2>/dev/null`" \
 	--build-arg locales="`cat locales`" \
+	--secret id=pro-attach-config,src=pro-attach-config.yaml \
+	--platform "linux/amd64" \
 	--no-cache "--iidfile=$(BUILD).iid" .
 
 $(BUILD).tar.gz: $(BUILD).iid

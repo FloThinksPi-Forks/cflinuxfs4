@@ -2,3 +2,5 @@
 *.cid
 *.iid
 .idea
+out
+pro-attach-config.yaml
